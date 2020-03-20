@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import scrolledtext
 from tkinter.ttk import *
 from sqlcode import *
 
@@ -6,7 +7,7 @@ window = Tk()
 
 window.title("question ZONE")
 
-window.geometry('400x500')
+window.geometry('450x550')
 
 tab_control = Notebook(window)
 
@@ -25,6 +26,10 @@ tab4 = Frame(tab_control)
 tab_control.add(tab3, text='ANSWER MCQ')
 
 tab_control.add(tab4, text='ANSWER SUBJECTIVE')
+
+tab5 = Frame(tab_control)
+
+tab_control.add(tab5, text='EVALUATE')
 
 
 lbl = Label(tab1, text="Enter The Qestion")
@@ -125,15 +130,146 @@ lbl14.pack()
 
 comboans = Combobox(tab4, width=70)
 g = []
+a = []
 for i in get_subs():
-    g.append(" Question ID::  "+str(i[0]) + " ->  " +
-             str(i[3]) + "   by AUTHOR =  "+str(i[1]))
+    g.append(str(i[3]))
+    a.append(int(i[0]))
 
 comboans['values'] = g
 
-comboans.current(1)  # set the selected item
-
+comboans.current(0)  # set the selected item
 comboans.pack()
+
+lbl15 = Label(tab4, text="")
+lbl15.pack()
+lbl16 = Label(tab4, text="TYPE ANSWER BELOW")
+lbl16.pack()
+
+txtans = scrolledtext.ScrolledText(tab4, width=40, height=10)
+txtans.insert(INSERT, '')
+txtans.pack()
+
+lbl16 = Label(tab4, text="TYPE YOUR NAME BELOW")
+lbl16.pack()
+
+opsubans = Entry(tab4, width=10)
+opsubans.pack()
+
+
+def subans():
+    sub_ans_sub(a[g.index(comboans.get())],
+                opsubans.get(), txtans.get(1.0, END))
+    print(comboans.get())
+    print(a[g.index(comboans.get())])
+
+
+btnanssub = Button(tab4, text="SUBMIT ANSWER", command=subans)
+btnanssub.pack()
+
+comboansmcq = Combobox(tab3, width=70)
+r = []
+b = []
+ch = []
+ans = []
+qids = []
+for i in get_mcqs():
+    r.append(str(i[3]))
+    b.append(int(i[0]))
+    ch.append([str(i[5]), str(i[6]), str(i[7]), str(i[8])])
+    ans.append(str(i[9]))
+
+comboansmcq['values'] = r
+
+comboansmcq.current(0)  # set the selected item
+comboansmcq.pack()
+
+lbl15mcq = Label(tab3, text="")
+lbl15mcq.pack()
+
+
+def update():
+    comboansmcqch['values'] = ch[r.index(comboansmcq.get())]
+
+
+btnansmcqup = Button(tab3, text="Update Options", command=update)
+btnansmcqup.pack()
+
+lbl17mcq = Label(tab3, text="choose ANSWER BELOW")
+lbl17mcq.pack()
+comboansmcqch = Combobox(tab3, width=70)
+comboansmcqch['values'] = ch[r.index(comboansmcq.get())]
+
+comboansmcqch.current(0)  # set the selected item
+comboansmcqch.pack()
+
+
+lbl16mcq = Label(tab3, text="TYPE YOUR NAME BELOW")
+lbl16mcq.pack()
+
+opmcqans = Entry(tab3, width=10)
+opmcqans.pack()
+
+
+def mcqans():
+    ansmcq = comboansmcqch.get()
+    qidmcq = b[r.index(comboansmcq.get())]
+    realans = ans[r.index(comboansmcq.get())]
+    if(ansmcq == realans):
+        marksmcq = 4
+    else:
+        marksmcq = 0
+    sub_ans_mcq(qidmcq, opmcqans.get(), ansmcq, marksmcq)
+
+
+btnansmcq = Button(tab3, text="SUBMIT ANSWER", command=mcqans)
+btnansmcq.pack()
+
+
+evalcombobox = Combobox(tab5, width=70)
+substoeval = get_subs_toeval()
+cbeval = []
+aids = []
+quidev = []
+ansev = []
+for i in substoeval:
+    cbeval.append(str(i[3])+" "+str(i[5]))
+    quidev.append(i[0])
+    ansev.append(i[7])
+    aids.append(i[5])
+evalcombobox['values'] = cbeval
+
+evalcombobox.pack()
+
+labelevq = Label(tab5)
+labelevq.pack()
+labeleva = Label(tab5)
+labeleva.pack()
+
+
+def evupdate():
+    index = cbeval.index(evalcombobox.get())
+    labelevq.config(text=evalcombobox.get())
+    labeleva.config(text=""+str(ansev[index]))
+
+
+evupdate = Button(tab5, text="update", command=evupdate)
+evupdate.pack()
+
+enter_marks = Entry(tab5, width=5)
+enter_marks.pack()
+
+enter_eval_name = Entry(tab5, width=10)
+enter_eval_name.pack()
+
+
+def updatemarks():
+    index = cbeval.index(evalcombobox.get())
+    add_marks_for_sub(aids[index], quidev[index],
+                      enter_eval_name.get(), enter_marks.get())
+
+
+marksbtn = Button(tab5, text="enter marks", command=updatemarks)
+marksbtn.pack()
 
 
 tab_control.pack(expand=1, fill='both')
