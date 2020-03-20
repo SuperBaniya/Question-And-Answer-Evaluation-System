@@ -6,7 +6,7 @@ window = Tk()
 
 window.title("question ZONE")
 
-window.geometry('350x400')
+window.geometry('400x500')
 
 tab_control = Notebook(window)
 
@@ -14,9 +14,18 @@ tab1 = Frame(tab_control)
 
 tab2 = Frame(tab_control)
 
-tab_control.add(tab1, text='MCQ')
+tab_control.add(tab1, text='ADD MCQ')
 
-tab_control.add(tab2, text='SUBJECTIVE')
+tab_control.add(tab2, text='ADD SUBJECTIVE')
+
+tab3 = Frame(tab_control)
+
+tab4 = Frame(tab_control)
+
+tab_control.add(tab3, text='ANSWER MCQ')
+
+tab_control.add(tab4, text='ANSWER SUBJECTIVE')
+
 
 lbl = Label(tab1, text="Enter The Qestion")
 lbl.pack()
@@ -103,10 +112,28 @@ auth11.pack()
 
 def sub():
     q_o_insert_sub(qid12.get(), auth11.get(), q11.get())
+    lbl14.config(text='SUBMITTED')
 
 
 btn11 = Button(tab2, text="SUBMIT QUESTION", command=sub)
 btn11.pack()
+
+lbl14 = Label(tab2, text="")
+lbl14.pack()
+
+# answer tabs start:::
+
+comboans = Combobox(tab4, width=70)
+g = []
+for i in get_subs():
+    g.append(" Question ID::  "+str(i[0]) + " ->  " +
+             str(i[3]) + "   by AUTHOR =  "+str(i[1]))
+
+comboans['values'] = g
+
+comboans.current(1)  # set the selected item
+
+comboans.pack()
 
 
 tab_control.pack(expand=1, fill='both')

@@ -21,7 +21,7 @@ def q_o_insert_mcq(qid, auth, op1, op2, op3, op4, ans, q):
 
 
 def q_o_insert_sub(qid, auth, q):
-    sql_insert_q = 'insert into questions(question_id,author,type,question) values(%s,%s,%s.%s)'
+    sql_insert_q = 'insert into questions(question_id,author,type,question) values(%s,%s,%s,%s)'
     mycursor.execute(sql_insert_q, (qid, auth, "subjective", q))
     mydb.commit()
 
@@ -31,6 +31,7 @@ def get_mcqs():
     mycursor.execute(sql_get_mcqs)
     for i in mycursor.fetchall():
         print(i)
+    mycursor.execute(sql_get_mcqs)
     return mycursor.fetchall()
 
 
@@ -39,8 +40,8 @@ def get_subs():
     mycursor.execute(sql_get_subs)
     for i in mycursor.fetchall():
         print(i)
+    mycursor.execute(sql_get_subs)
     return mycursor.fetchall()
-x
 
-get_mcqs()
-get_subs()
+
+print(list(get_subs()))
