@@ -64,7 +64,7 @@ def add_marks_for_sub(aid, qid, evaluator, marks):
 
 
 def get_subs_toeval():
-    sql_get_subs = 'select * from (questions,answers) where questions.question_id=answers.question_id and answers.type="subjective" and marks =0'
+    sql_get_subs = 'select * from (questions,answers) where questions.question_id=answers.question_id and answers.type="subjective" and marks is NULL'
     mycursor.execute(sql_get_subs)
     for i in mycursor.fetchall():
         print(i)
