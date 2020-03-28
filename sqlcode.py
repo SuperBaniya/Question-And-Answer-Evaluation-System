@@ -72,4 +72,19 @@ def get_subs_toeval():
     return mycursor.fetchall()
 
 
-get_subs_toeval()
+def get_all_students():
+    sql_get_students = 'select distinct(answerer) from answers'
+    mycursor.execute(sql_get_students)
+    for i in mycursor.fetchall():
+        print(i)
+    mycursor.execute(sql_get_students)
+    return mycursor.fetchall()
+
+
+def get_student_marks(stud):
+    sql_get_student_marks = 'select SUM(marks) from answers where answerer = %s'
+    mycursor.execute(sql_get_student_marks, (stud,))
+    return mycursor.fetchone()
+
+
+print(get_student_marks('naman'))
