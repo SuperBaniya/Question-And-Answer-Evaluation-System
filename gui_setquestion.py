@@ -257,6 +257,17 @@ def startapp():
         r = get_student_marks(combostudents.get())
         labelans.config(text=r)
 
+    def showstudentsqs():
+        r = get_student_qs(combostudents.get())
+        qs = ""
+        count = 1
+        for i in r:
+            qs += str(count) + ".) "
+            qs += str(i[0])
+            qs += '\n'
+            count += 1
+        labelqs.config(text=qs)
+
     combostudents = Combobox(tab6, width=70)
     combostudents['values'] = get_all_students()
 
@@ -268,7 +279,11 @@ def startapp():
     showstudentsbttn.pack()
     labelans = Label(tab6, text="")
     labelans.pack()
-
+    showstudentsbttn2 = Button(
+        tab6, text="GET STUDENT's QUESTIONS ANSWERED", command=showstudentsqs)
+    showstudentsbttn2.pack()
+    labelqs = Label(tab6, text="")
+    labelqs.pack()
     tab_control.pack(expand=1, fill='both')
     bttn = Button(window, text="UPDATE VIEW", command=startapp)
     bttn.pack()

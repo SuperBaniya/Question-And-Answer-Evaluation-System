@@ -87,4 +87,10 @@ def get_student_marks(stud):
     return mycursor.fetchone()
 
 
-print(get_student_marks('naman'))
+def get_student_qs(stud):
+    sql_get_student_qs = 'select Distinct(question) from answers,questions where answers.answerer = %s and answers.question_id=questions.question_id'
+    mycursor.execute(sql_get_student_qs, (stud,))
+    return mycursor.fetchall()
+
+
+print(get_student_qs('naman'))
