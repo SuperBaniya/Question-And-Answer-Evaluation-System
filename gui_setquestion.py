@@ -84,6 +84,7 @@ def startapp():
     def clicked():
         q_o_insert_mcq(qid.get(), auth.get(), op1.get(),
                        op2.get(), op3.get(), op4.get(), combo.get(), q.get())
+        set_setter(auth.get())
         lbl6.config(text="SUBMITTED")
 
     btn = Button(tab1, text="SUBMIT QUESTION", command=clicked)
@@ -109,6 +110,7 @@ def startapp():
 
     def sub():
         q_o_insert_sub(qid12.get(), auth11.get(), q11.get())
+        set_setter(auth11.get())
         lbl14.config(text='SUBMITTED')
 
     btn11 = Button(tab2, text="SUBMIT QUESTION", command=sub)
@@ -151,6 +153,7 @@ def startapp():
                     opsubans.get(), txtans.get(1.0, END))
         print(comboans.get())
         print(a[g.index(comboans.get())])
+        set_answerer(opsubans.get())
 
     btnanssub = Button(tab4, text="SUBMIT ANSWER", command=subans)
     btnanssub.pack()
@@ -204,6 +207,7 @@ def startapp():
         else:
             marksmcq = 0
         sub_ans_mcq(qidmcq, opmcqans.get(), ansmcq, marksmcq)
+        set_answerer(opmcqans.get())
 
     btnansmcq = Button(tab3, text="SUBMIT ANSWER", command=mcqans)
     btnansmcq.pack()
@@ -247,6 +251,7 @@ def startapp():
         index = cbeval.index(evalcombobox.get())
         add_marks_for_sub(aids[index], quidev[index],
                           enter_eval_name.get(), enter_marks.get())
+        set_evaluator(enter_eval_name.get() )
 
     marksbtn = Button(tab5, text="enter marks", command=updatemarks)
     marksbtn.pack()

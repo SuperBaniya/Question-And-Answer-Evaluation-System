@@ -93,4 +93,29 @@ def get_student_qs(stud):
     return mycursor.fetchall()
 
 
-print(get_student_qs('naman'))
+def set_answerer(answerer):
+    sqlmake = 'insert into answerers (answerer) Select %s Where not exists(select * from answerers where answerer=%s)'
+    mycursor.execute(sqlmake, (answerer, answerer))
+    mydb.commit()
+
+
+def set_answerer(answerer):
+    sqlmake = 'insert into answerers (answerer) Select %s Where not exists(select * from answerers where answerer=%s)'
+    mycursor.execute(sqlmake, (answerer, answerer))
+    mydb.commit()
+
+
+def set_setter(setter):
+    sqlmake = 'insert into setters (setter) Select %s Where not exists(select * from setters where setter=%s)'
+    mycursor.execute(sqlmake, (setter, setter))
+    mydb.commit()
+
+
+def set_evaluator(evaluator):
+    sqlmake = 'insert into evaluators (evaluator) Select %s Where not exists(select * from evaluators where evaluator=%s)'
+    mycursor.execute(sqlmake, (evaluator, evaluator))
+    mydb.commit()
+
+
+print(get_student_qs('rodeo'))
+set_setter('rodeo')
